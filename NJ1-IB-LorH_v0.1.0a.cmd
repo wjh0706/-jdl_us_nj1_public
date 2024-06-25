@@ -16,29 +16,17 @@ python --version >nul 2>&1 || (
     exit /b
 )
 
-REM Check if cryptography is installed
-python -c "import cryptography" >nul 2>&1 || (
-    echo cryptography package is not installed. Installing cryptography...
-    pip install cryptography==42.0.8 >nul
-)
+REM Delete existing requirements file if it exists
+del /q NJ1-IB-LorH_v0.1.0a_requirements.txt 2>nul
 
-REM Check if pyTelegramBotAPI is installed
-python -c "import telebot" >nul 2>&1 || (
-    echo pyTelegramBotAPI package is not installed. Installing pyTelegramBotAPI...
-    pip install pyTelegramBotAPI==4.20.0 >nul
-)
+REM Pull latest NJ1-IB-LorH_v0.1.0a_requirements.txt from GitHub using PowerShell
+powershell -Command "Invoke-WebRequest -Uri 'https://github.com/wjh0706/jdl_us_nj1_public/raw/main/NJ1-IB-LorH_v0.1.0a_requirements.txt' -OutFile 'NJ1-IB-LorH_v0.1.0a_requirements.txt'" >nul
 
-REM Check if requests is installed
-python -c "import requests" >nul 2>&1 || (
-    echo requests package is not installed. Installing requests...
-    pip install requests==2.32.3 >nul
-)
+REM Install Python packages from the requirements file
+pip install -r NJ1-IB-LorH_v0.1.0a_requirements.txt >nul
 
-REM Check if xmltodict is installed
-python -c "import xmltodict" >nul 2>&1 || (
-    echo xmltodict package is not installed. Installing xmltodict...
-    pip install xmltodict==0.13.0 >nul
-)
+REM Delete the requirements file after installation
+del /q NJ1-IB-LorH_v0.1.0a_requirements.txt 2>nul
 
 REM Delete existing files if they exist
 del /q NJ1-IB-LorH_v0.1.0a.pkl 2>nul
@@ -48,7 +36,7 @@ REM Pull latest decrypt_and_run.py and NJ1-IB-LorH_v0.1.0a.pkl from GitHub using
 powershell -Command "Invoke-WebRequest -Uri 'https://github.com/wjh0706/jdl_us_nj1_public/raw/main/decrypt_and_run.py' -OutFile 'decrypt_and_run.py'" >nul
 powershell -Command "Invoke-WebRequest -Uri 'https://github.com/wjh0706/jdl_us_nj1_public/raw/main/NJ1-IB-LorH_v0.1.0a.pkl' -OutFile 'NJ1-IB-LorH_v0.1.0a.pkl'" >nul
 
-REM Display message while Python script runs in the background. use need to press ctrl+c two times to exit the script.
+REM Display message while Python script runs in the background. User needs to press Ctrl+C twice to exit the script.
 echo The bot is running. To stop the bot, close this command window or press Ctrl+C twice.
 
 REM Run the Python script with hardcoded password (redirecting output to nul to suppress Python's output)
